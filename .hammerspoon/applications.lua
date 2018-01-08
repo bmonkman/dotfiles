@@ -24,7 +24,8 @@ alert.defaultStyle = {
       white = 1
     },
     textFont = "Menlo",
-    textSize = 18
+    textSize = 18,
+    atScreenEdge = 0,
 }
 
 mod.name = {

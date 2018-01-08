@@ -30,7 +30,7 @@ local hyperBindings = {
   -- Productivity / other
   { key = 'q', name = applications.name.chrome },
   { key = 'w', name = applications.name.slack },
-  { key = 'e', name = '1Password 6' },
+  { key = 'e', name = '1Password' },
   { key = 'r', name = 'Spotify' },
 
   { key = 'a', fn = applications.inbox },
@@ -40,7 +40,7 @@ local hyperBindings = {
   { key = 'g', fn = applications.google },
   
 
-  { key = 'b', fn = applications.openNotification },
+  { key = 'x', fn = applications.openNotification },
   { key = 'o', fn = applications.openNotification },
   { key = 'p', fn = applications.openNotificationAction },
   

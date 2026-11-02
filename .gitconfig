@@ -1,10 +1,9 @@
-#[user]
-#	name = Bill Monkman
-#	email = 
-#	signingkey = 
+[user]
+	name = Bill Monkman
+	email = bmonkman@gmail.com
 [core]
 	editor = vim
-	excludesfile = /Users/billmonkman/.gitignore_global
+	excludesfile = ~/.gitignore_global
 	autocrlf = input
 [color]
 	ui = auto
@@ -26,6 +25,7 @@
 	ci = commit
 	co = checkout
 	br = branch
+	brco = "!f() { git branch $@ && git co $@; }; f"
 	cp = cherry-pick
 	cps = cherry-pick -s
 	meh = commit --amend
@@ -61,6 +61,7 @@
 	httpd=webrick
 [push]
 	default = current
+	autoSetupRemote = true
 [pull]
 	rebase = true
 [branch]
@@ -68,12 +69,11 @@
 	autosetuprebase = always
 [diff]
 	algorithm = patience
-[credential]
-	helper = osxkeychain
+[credential "https://github.com"]
+	helper =
+	helper = !gh auth git-credential
 [commit]
 	gpgsign = true
-[gpg]
-	program = /usr/local/bin/gpg
 [url "git@github.com:"]
 	insteadOf = "https://github.com/"
 [filter "lfs"]
@@ -81,3 +81,7 @@
 	required = true
 	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f
+
+# Machine-specific settings (signing key, gpg program, extra credential helpers). Not checked in.
+[include]
+	path = ~/.gitconfig.local

@@ -1,6 +1,4 @@
-# Requires zsh, oh-my-zsh, git, gpg, zoxide, fzf, jq
-# Plugins zsh-autosuggestions and zsh-syntax-highlighting from https://github.com/zsh-users/
-# must be cloned into $ZSH_CUSTOM/plugins.
+# Setup steps and required tools are in README.md and Brewfile.
 #
 # Machine-specific settings (agents, browser, SDK locations, project env vars) go in
 # ~/.zshrc.local, which is not checked in.

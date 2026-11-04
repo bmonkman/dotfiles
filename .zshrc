@@ -84,6 +84,7 @@ zstyle ':bracketed-paste-magic' active-widgets '.self-*'
 bindkey -v
 export KEYTIMEOUT=1
 bindkey '^H' backward-delete-word
+bindkey '^R' history-incremental-search-backward
 
 ###
 # Language/tool version managers

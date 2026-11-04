@@ -5,8 +5,11 @@
 	editor = vim
 	excludesfile = ~/.gitignore_global
 	autocrlf = input
-	# Global hooks (git-secrets scan, disallowed-marker check), which then chain to each repo's own pre-commit hook
-	hooksPath = ~/.git-hooks
+# Commit checks for every repo (git-secrets scan, do-not-commit marker). A config-based hook runs
+# in addition to each repo's own hooks, unlike core.hooksPath, which replaces them. Needs git 2.54+.
+[hook "commit-checks"]
+	event = pre-commit
+	command = ~/.git-hooks/check-commit
 [init]
 	defaultBranch = main
 	# Holds the pre-commit framework's hook so new clones get it. Generated per machine, see README.

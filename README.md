@@ -100,7 +100,7 @@ These hold each machine's own settings and aren't checked in.
 
 `~/.zshrc.local` is sourced before oh-my-zsh loads. It's optional, so skip it if nothing below applies.
 
-- Linux: start the SSH agent with `eval $(keychain --eval --agents ssh)` (install `keychain` with apt).
+- Linux: start the SSH agent with `eval $(keychain --eval --quiet --agents ssh)` (install `keychain` with apt).
 - WSL: also add `export BROWSER=wslview`, so links open in the Windows browser.
 - Any machine: set `CLOUDSDK_HOME` only if gcloud completion doesn't work, which means the oh-my-zsh gcloud plugin didn't find the SDK. Point it at the SDK's install folder.
 

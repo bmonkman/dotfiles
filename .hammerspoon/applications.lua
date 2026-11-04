@@ -80,9 +80,7 @@ end
 function mod.slackUnread()
   mod.slack()
   wait()
-  eventtap.keyStrokes('allunread')
-  wait()
-  eventtap.keyStroke({}, 'return')
+  eventtap.keyStroke({'cmd'}, 't')
 end
 
 function mod.chromeOmni()
@@ -139,6 +137,10 @@ function mod.google()
   mod.inbox()
   wait()
   eventtap.keyStroke({'cmd'}, 't')
+end
+
+function mod.previousWindow()
+ 	hs.window.switcher.previousWindow()
 end
 
 return mod

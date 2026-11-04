@@ -5,6 +5,12 @@
 	editor = vim
 	excludesfile = ~/.gitignore_global
 	autocrlf = input
+	# Global hooks (git-secrets scan, disallowed-marker check), which then chain to each repo's own pre-commit hook
+	hooksPath = ~/.git-hooks
+[init]
+	defaultBranch = main
+	# Holds the pre-commit framework's hook so new clones get it. Generated per machine, see README.
+	templateDir = ~/.git-template
 [color]
 	ui = auto
 [color "branch"]
@@ -57,6 +63,7 @@
 	serveall = daemon --verbose --export-all --base-path=. --reuseaddr .
 	addpr = "!f() { git fetch origin pull/$1/head:pr/$1; }; f"
 	cleanup = "!git fetch --prune; git branch --merged origin/master | grep -v 'master|*' | xargs -n 1 git branch -d"
+	undo = reset --soft HEAD^
 [instaweb]
 	httpd=webrick
 [push]
@@ -72,6 +79,16 @@
 [credential "https://github.com"]
 	helper =
 	helper = !gh auth git-credential
+[credential "https://gist.github.com"]
+	helper =
+	helper = !gh auth git-credential
+[secrets]
+	providers = git secrets --aws-provider
+	patterns = (A3T[A-Z0-9]|AKIA|AGPA|AIDA|AROA|AIPA|ANPA|ANVA|ASIA)[A-Z0-9]{16}
+	patterns = (\"|')?(AWS|aws|Aws)?_?(SECRET|secret|Secret)?_?(ACCESS|access|Access)?_?(KEY|key|Key)(\"|')?\\s*(:|=>|=)\\s*(\"|')?[A-Za-z0-9/\\+=]{40}(\"|')?
+	patterns = (\"|')?(AWS|aws|Aws)?_?(ACCOUNT|account|Account)_?(ID|id|Id)?(\"|')?\\s*(:|=>|=)\\s*(\"|')?[0-9]{4}\\-?[0-9]{4}\\-?[0-9]{4}(\"|')?
+	allowed = AKIAIOSFODNN7EXAMPLE
+	allowed = wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
 [commit]
 	gpgsign = true
 [url "git@github.com:"]

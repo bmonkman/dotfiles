@@ -20,6 +20,16 @@ zstyle ':completion:*' completer _complete _ignored
 
 export LC_ALL='en_US.UTF-8'
 
+# Homebrew's prefix differs by platform: /opt/homebrew on Apple Silicon, /usr/local on Intel, linuxbrew on Linux.
+# shellenv puts it on PATH and sets HOMEBREW_PREFIX, which the nvm lookup below relies on.
+for brew_bin in /opt/homebrew/bin/brew /usr/local/bin/brew /home/linuxbrew/.linuxbrew/bin/brew; do
+  if [[ -x $brew_bin ]]; then
+    eval "$($brew_bin shellenv)"
+    break
+  fi
+done
+unset brew_bin
+
 export PATH=$HOME/bin:$HOME/.local/bin:$HOME/go/bin:$HOME/.krew/bin:/usr/local/bin:/usr/local/sbin:$PATH
 
 export ANSIBLE_SSH_ARGS="-o ControlMaster=auto -o ControlPersist=60s"
@@ -55,7 +65,7 @@ export DISABLE_UPDATE_PROMPT=true
 
 export ZSH="$HOME/.oh-my-zsh"
 ZSH_THEME="nanotech"
-plugins=(git aws brew docker kubectl 1password golang gcloud history-substring-search colorize zoxide zsh-autosuggestions zsh-syntax-highlighting)
+plugins=(git aws brew docker kubectl 1password golang gcloud history-substring-search zoxide zsh-autosuggestions zsh-syntax-highlighting)
 [[ $OSTYPE == darwin* ]] && plugins+=(macos)
 
 source $ZSH/oh-my-zsh.sh
@@ -69,7 +79,10 @@ autoload -Uz bracketed-paste-magic
 zle -N bracketed-paste bracketed-paste-magic
 zstyle ':bracketed-paste-magic' active-widgets '.self-*'
 
-# oh-my-zsh selects the emacs keymap, so bindings must come after it to take effect
+# oh-my-zsh selects the emacs keymap, so vi mode must be set after it.
+# Bindings below go into the vi insert keymap, so they must come after bindkey -v.
+bindkey -v
+export KEYTIMEOUT=1
 bindkey '^H' backward-delete-word
 
 ###
@@ -111,6 +124,13 @@ else
 fi
 alias ll='ls -l'
 alias l='ll'
+
+# Debian/Ubuntu install bat as batcat
+if command -v bat >/dev/null; then
+  alias cat='bat --paging=never --style=plain'
+elif command -v batcat >/dev/null; then
+  alias cat='batcat --paging=never --style=plain'
+fi
 
 alias u='cd ..'
 alias uu='u;u'

@@ -25,6 +25,14 @@ Shared shell and git config for macOS and Linux (including WSL), plus Hammerspoo
    ln -sf ~/path/to/dotfiles/.zshrc ~/.zshrc
    ln -sf ~/path/to/dotfiles/.gitconfig ~/.gitconfig
    ln -s ~/path/to/dotfiles/.hammerspoon ~/.hammerspoon
+   ln -s ~/path/to/dotfiles/git-hooks ~/.git-hooks
+   ln -sf ~/path/to/dotfiles/.gitignore_global ~/.gitignore_global
+   ```
+
+   `~/.git-hooks` holds a pre-commit hook that every repo runs. It blocks AWS keys (using git-secrets) and any line marked with the do-not-commit marker listed in the hook, then runs the repo's own hook. Generate the pre-commit framework's hook template, which new clones copy:
+
+   ```sh
+   pre-commit init-templatedir ~/.git-template
    ```
 
 4. Create the machine-local files (see below). On a Mac, `~/.gitconfig.local` usually looks like:
@@ -47,7 +55,7 @@ Shared shell and git config for macOS and Linux (including WSL), plus Hammerspoo
 
 7. Create `~/.nvm` (`mkdir ~/.nvm`) so the Homebrew nvm has somewhere to install Node versions. Then open a new terminal.
 
-8. Open Hammerspoon and grant it Accessibility access when asked.
+8. Open Hammerspoon and grant it Accessibility access when asked. The app hotkeys at the top of `.hammerspoon/bindings.lua` name the terminal, editor, browser and so on, so change them there if you switch apps.
 
 ## Machine-local files
 

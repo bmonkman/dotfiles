@@ -10,14 +10,47 @@ local ext = require "windows/extensions"
 local mod = {}
 
 mod.launchOrCycleFocus = ext.launchOrCycleFocus
+mod.previousWindow = ext.previousWindow
 
 -- grid/window settings
 grid.ui.textSize = 15
 grid.GRIDWIDTH = 10
-grid.GRIDHEIGHT = 4
+grid.GRIDHEIGHT = 6
 grid.MARGINX = 0
 grid.MARGINY = 0
 window.animationDuration = 0
+
+
+-------------------------------------------------------------------------------
+-- from https://github.com/exark/dotfiles/blob/master/.hammerspoon/init.lua
+-- Resize window for chunk of screen.
+-- For x and y: use 0 to expand fully in that dimension, 0.5 to expand halfway
+-- For w and h: use 1 for full, 0.5 for half
+-------------------------------------------------------------------------------
+function mod.push(x, y, w, h)
+  local win = hs.window.focusedWindow()
+  local f = win:frame()
+  local screen = win:screen()
+  local max = screen:frame()
+
+  f.x = max.x + (max.w*x)
+  f.y = max.y + (max.h*y)
+  f.w = max.w*w
+  f.h = max.h*h
+  win:setFrame(f)
+end
+
+function mod.pushWindow(win, x, y, w, h)
+  local f = win:frame()
+  local screen = win:screen()
+  local max = screen:frame()
+
+  f.x = max.x + (max.w*x)
+  f.y = max.y + (max.h*y)
+  f.w = max.w*w
+  f.h = max.h*h
+  win:setFrame(f)
+end
 
 function mod.grid()
   grid.setGrid('10x4')

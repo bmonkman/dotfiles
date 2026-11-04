@@ -28,6 +28,5 @@ cask "1password-cli"
 
 # Apps (Hammerspoon's bindings.lua names the terminal and password manager)
 cask "hammerspoon"
-cask "ghostty"
 cask "iterm2"
 cask "1password"

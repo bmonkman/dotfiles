@@ -15,7 +15,7 @@ local hyperShift = { 'cmd', 'alt', 'ctrl', 'shift' }
 local mod = {}
 
 
-local app_terminal = 'Ghostty' -- 'iTerm2'
+local app_terminal = 'iTerm'
 local app_editor = 'Visual Studio Code' -- 'IntelliJ IDEA'
 local app_browser = 'Google Chrome' -- 'Firefox'
 local app_chat = applications.name.slack
@@ -140,7 +140,7 @@ local modeLayouts = {
   { key = 'm', fn = windows.cycleScreenBack },
   { key = 'n', fn = windows.cycleScreen },
   { key = 'z', layout = {
-      { app_terminal, layout.right50 },
+      { 'iTerm2', layout.right50 },
       { 'Google Chrome', layout.right50 },
       { 'IntelliJ IDEA', layout.right50 },
       { 'Sublime Text', layout.right50 },
@@ -148,12 +148,12 @@ local modeLayouts = {
   { key = 'x', layout = {
       { app_editor, layout.right70 },
       { app_browser, layout.right30 },
-      { app_terminal, layout.right30 },
+      { 'iTerm2', layout.right30 },
     }},
   { key = 'c', layout = {
       { app_browser, layout.right70 },
       { app_editor, layout.right70 },
-      { app_terminal, layout.right70 },
+      { 'iTerm2', layout.right70 },
     }},
 }
 

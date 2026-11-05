@@ -161,7 +161,7 @@ local function buildBindFunction(binding)
   if binding.pos and binding.targetScreen then
     return windows.setPosition(binding.pos, binding.targetScreen, binding.reversable)
   elseif binding.pos then
-    return windows.setPosition(binding.pos, 'secondary', binding.reversable)
+    return windows.setPosition(binding.pos, 'current', binding.reversable)
   elseif binding.layout then
     return windows.applyLayout(commonLayout, binding.layout)
   elseif binding.name then

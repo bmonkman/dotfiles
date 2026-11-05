@@ -217,7 +217,11 @@ bd() { echo "$1" | base64 -d }
 be() { echo -n "$1" | base64 }
 
 # 1Password: pick an item by title and show its fields
-opget() { op item list --format json | jq -r '.[].title' | fzf -q "${1-}" | xargs -I{} op item get "{}" --format json | jq .fields }
+opget() {
+  local title
+  title=$(op item list --format json | jq -r '.[].title' | fzf -q "${1-}") || return
+  op item get "$title" --format json | jq .fields
+}
 
 # Shows the aws profile at the end of the prompt (e.g. (project-namespace))
 aws_workspace() {

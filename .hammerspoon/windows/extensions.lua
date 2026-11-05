@@ -172,22 +172,21 @@ function mod.launchOrCycleFocus(applicationName)
   end
 end
 
+-- Tracks the window focused before the current one, for previousWindow. A window filter also sees
+-- focus move between windows of the same app, which an application watcher misses. It's stored on
+-- mod so it isn't garbage-collected, which would silently stop the tracking.
 local lastWindow = nil
 local currentWindow = nil
-local function applicationWatcher(appName, eventType, appObject)
-    if (eventType == hs.application.watcher.activated) then
-      lastWindow = currentWindow
-      currentWindow = window.focusedWindow()
-      -- logger.df('New active: %s', currentWindow)
-      -- logger.df('Last active: %s', lastWindow)
-    end
-end
-local appWatcher = hs.application.watcher.new(applicationWatcher)
-appWatcher:start()
+mod.focusFilter = hs.window.filter.default:subscribe(hs.window.filter.windowFocused, function(win)
+  if win ~= currentWindow then
+    lastWindow = currentWindow
+    currentWindow = win
+  end
+end)
 
 function mod.previousWindow()
 --  logger.df('Focus: %s', lastWindow)
-	-- Nothing to go back to until a second app has been activated since Hammerspoon loaded
+	-- Nothing to go back to until focus has moved at least once since Hammerspoon loaded
 	if lastWindow then
 		lastWindow:focus()
 	end

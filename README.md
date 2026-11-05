@@ -34,7 +34,7 @@ These steps work whether you run them yourself or ask Claude to.
 
 **Linux / WSL**
 
-1. **(you)** Install zsh and make it your shell: `sudo apt install zsh` and `chsh -s $(which zsh)`. Skip if `echo $SHELL` ends in `zsh`.
+1. **(you)** Install zsh, GnuPG and keychain, and make zsh your shell: `sudo apt install zsh gnupg keychain` and `chsh -s $(which zsh)`. Skip what's done: `echo $SHELL` ends in `zsh`, and `gpg --version` and `keychain --version` work. GnuPG comes from apt rather than Homebrew so there's only one gpg and one gpg-agent on the machine.
 2. **(you)** Install [Homebrew on Linux](https://docs.brew.sh/Homebrew-on-Linux). It asks for your password. Skip if `brew --version` works. The commit checks need git 2.54 or newer, and Homebrew is the easiest way to get it, since distro packages are usually older.
 3. Clone this repo (same command as macOS step 2), then install the tools:
 
@@ -100,7 +100,7 @@ These hold each machine's own settings and aren't checked in.
 
 `~/.zshrc.local` is sourced before oh-my-zsh loads. It's optional, so skip it if nothing below applies.
 
-- Linux: start the SSH agent with `eval $(keychain --eval --quiet --agents ssh)` (install `keychain` with apt).
+- Linux: start the SSH agent with `eval $(keychain --eval --quiet --agents ssh)`.
 - WSL: also add `export BROWSER=wslview`, so links open in the Windows browser.
 - Any machine: set `CLOUDSDK_HOME` only if gcloud completion doesn't work, which means the oh-my-zsh gcloud plugin didn't find the SDK. Point it at the SDK's install folder.
 
@@ -123,8 +123,8 @@ Get the key ID from `gpg --list-secret-keys --keyid-format long`. It's the part 
    ```sh
    mkdir -p -m 700 ~/.gnupg
    cp ~/work/bmonkman/dotfiles/gnupg/gpg-agent.conf ~/.gnupg/gpg-agent.conf
-   # macOS only: ask for the passphrase in a macOS dialog, which works from GUI apps too
-   echo "pinentry-program $(brew --prefix)/bin/pinentry-mac" >> ~/.gnupg/gpg-agent.conf
+   # macOS: ask for the passphrase in a macOS dialog, which works from GUI apps too
+   [[ $OSTYPE == darwin* ]] && echo "pinentry-program $(brew --prefix)/bin/pinentry-mac" >> ~/.gnupg/gpg-agent.conf
    gpgconf --kill gpg-agent
    ```
 

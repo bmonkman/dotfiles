@@ -105,11 +105,15 @@ local function inPostions(currentPos, positions)
   return false
 end
 
+-- 'primary' moves the window to the primary screen. 'current' keeps it on the screen it's on,
+-- which win:move does when given no screen.
 local function resolveTargetScreen(targetScreen)
   if targetScreen == 'primary' then
     return screen.primaryScreen()
+  elseif targetScreen == 'current' then
+    return nil
   end
-  return nil
+  error('unknown targetScreen: ' .. tostring(targetScreen))
 end
 
 local previousStates = {}

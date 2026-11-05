@@ -7,4 +7,4 @@ local bindings = require "bindings"
 reload.init()
 bindings.init()
 
-alert.show("Config loaded")
+-- alert.show("Config loaded")

@@ -91,7 +91,7 @@ end
 function mod.centerOnTitle(rect)
   local point = geometry.rectMidPoint(rect)
   point.y = rect.y + 5
-  mouse.setAbsolutePosition(point)
+  mouse.absolutePosition(point)
 end
 
 
@@ -110,7 +110,11 @@ local function getNextWindow(windows, currentWindow)
     windows = appfinder.appFromName(windows):allWindows()
   end
 
-  windows = filter(windows, window.isStandard)
+  if windows == nil then
+    return false
+  end
+
+  -- windows = filter(windows, window.isStandard)
   -- windows = filter(windows, window.isVisible)
 
   -- need to sort by ID, since the default order of the window
@@ -142,11 +146,10 @@ function mod.launchOrCycleFocus(applicationName)
 
     if applicationName == 'iTerm2' then
       -- moving the cursor out the window, to preserve iTerm currently focussed split
-      mouse.setAbsolutePosition(geometry.point(screen.mainScreen():fullFrame().w / 2, 5))
+      mouse.absolutePosition(geometry.point(screen.mainScreen():fullFrame().w / 2, 5))
     end
 
     local appName = applicationName:gsub('.app$', '')
-    logger.df('last: %s, current: %s', lastToggledApplication, appName)
     if lastToggledApplication == appName then
       nextWindow = getNextWindow(appName, focusedWindow)
       nextWindow:becomeMain()
@@ -168,5 +171,26 @@ function mod.launchOrCycleFocus(applicationName)
     mod.centerOnTitle(targetWindow:frame())
   end
 end
+
+-- Tracks the window focused before the current one, for previousWindow. A window filter also sees
+-- focus move between windows of the same app, which an application watcher misses. It's stored on
+-- mod so it isn't garbage-collected, which would silently stop the tracking.
+local lastWindow = nil
+local currentWindow = nil
+mod.focusFilter = hs.window.filter.default:subscribe(hs.window.filter.windowFocused, function(win)
+  if win ~= currentWindow then
+    lastWindow = currentWindow
+    currentWindow = win
+  end
+end)
+
+function mod.previousWindow()
+--  logger.df('Focus: %s', lastWindow)
+	-- Nothing to go back to until focus has moved at least once since Hammerspoon loaded
+	if lastWindow then
+		lastWindow:focus()
+	end
+end
+
 
 return mod

@@ -1,0 +1,22 @@
+#!/bin/bash
+# Commit checks for every repo. .gitconfig runs this as a config-based pre-commit hook
+# (hook.commit-checks), which git runs in addition to the repo's own .git/hooks/pre-commit.
+
+if ! command -v git-secrets >/dev/null; then
+  echo "ERROR: git-secrets isn't installed, so commits are blocked until it is (brew install git-secrets)." >&2
+  exit 1
+fi
+git secrets --pre_commit_hook -- "$@" || exit 1
+
+# Split so this file doesn't contain the marker and block its own commit
+disallowed=("@no""commit")
+
+# Checks the staged content, not the working file, so a fix that isn't staged yet still blocks.
+while IFS= read -r -d '' file; do
+  for word in "${disallowed[@]}"; do
+    if git show ":$file" 2>/dev/null | grep -qE "$word"; then
+      echo "ERROR: Disallowed expression \"${word}\" in file: ${file}" >&2
+      exit 1
+    fi
+  done
+done < <(git diff --cached --name-only --diff-filter=d -z)

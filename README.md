@@ -32,6 +32,8 @@ These steps work whether you run them yourself or ask Claude to.
    brew bundle --file=~/work/bmonkman/dotfiles/Brewfile
    ```
 
+   **(you)** Homebrew won't install from a third-party tap until you trust it, so terraform fails the first time. Run `brew trust hashicorp/tap`, then re-run the bundle.
+
 **Linux / WSL**
 
 1. **(you)** Install zsh, GnuPG and keychain, and make zsh your shell: `sudo apt install zsh gnupg keychain` and `chsh -s $(which zsh)`. Skip what's done: `echo $SHELL` ends in `zsh`, and `gpg --version` and `keychain --version` work. GnuPG comes from apt rather than Homebrew so there's only one gpg and one gpg-agent on the machine.
@@ -47,9 +49,9 @@ These steps work whether you run them yourself or ask Claude to.
 
 ### 2. Sign in to GitHub
 
-**(you)** Run `gh auth login`. Choose SSH, and let it create and upload an SSH key if this machine doesn't have one. Skip if `gh auth status` shows you're logged in.
+**(you)** Run `gh auth login` and choose HTTPS. Skip if `gh auth status` shows you're logged in.
 
-This comes before anything else that talks to GitHub. Once `.gitconfig` is linked, it turns every `https://github.com/` URL into an SSH one.
+This comes before anything else that talks to GitHub. `.gitconfig` makes gh git's credential helper for GitHub, so git uses gh's token and there's no SSH key to manage.
 
 ### 3. Claude Code config
 
@@ -100,7 +102,7 @@ These hold each machine's own settings and aren't checked in.
 - WSL: also add `export BROWSER=wslview`, so links open in the Windows browser.
 - Any machine: set `CLOUDSDK_HOME` only if gcloud completion doesn't work, which means the oh-my-zsh gcloud plugin didn't find the SDK. Point it at the SDK's install folder.
 
-`~/.gitconfig.local` is included at the end of `.gitconfig`. It needs your signing key ID, so do step 7 first if the key isn't imported yet.
+**(you)** `~/.gitconfig.local` is included at the end of `.gitconfig`. It needs your signing key ID, so do step 7 first if the key isn't imported yet. Claude can work out the contents, but you write the file: the Claude config's hooks block Claude from changing git config.
 
 ```ini
 [user]
@@ -113,7 +115,14 @@ Get the key ID from `gpg --list-secret-keys --keyid-format long`. It's the part 
 
 ### 7. GPG signing
 
-1. **(you)** Import your secret key: `gpg --import <file>`. Skip if `gpg --list-secret-keys` already shows it.
+1. Import your secret key from 1Password and mark it as fully trusted. Skip if `gpg --list-secret-keys` already shows it.
+
+   ```sh
+   op read "op://Private/GPG Private Key/notesPlain" | gpg --import
+   echo "0F34E5D27DDB67FA0D647651E44C6C1F3DEA82D0:6:" | gpg --import-ownertrust
+   ```
+
+   **(you)** `op` needs the 1Password app's CLI integration (step 8). On macOS, the terminal app also needs access to other apps' data: System Settings → Privacy & Security → App Data, then restart the terminal. Without it, `op` can't reach the app and asks for your account password instead.
 2. Install the agent settings. Run these together, since `cp` resets the file before the macOS line is added:
 
    ```sh

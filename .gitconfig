@@ -94,8 +94,6 @@
 	allowed = wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
 [commit]
 	gpgsign = true
-[url "git@github.com:"]
-	insteadOf = "https://github.com/"
 [filter "lfs"]
 	process = git-lfs filter-process
 	required = true

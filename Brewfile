@@ -26,6 +26,13 @@ brew "awscli"
 cask "gcloud-cli"
 cask "1password-cli"
 
+# Dev tools used day to day
+brew "tilt"
+brew "circleci"
+brew "doctl"
+brew "herdr"
+cask "ngrok"
+
 # Apps (Hammerspoon's bindings.lua names the terminal and password manager)
 cask "hammerspoon"
 cask "iterm2"

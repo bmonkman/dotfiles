@@ -39,10 +39,11 @@ These steps work whether you run them yourself or ask Claude to.
 3. Clone this repo (same command as macOS step 2), then install the tools:
 
    ```sh
-   brew install git git-lfs gh git-secrets pre-commit zoxide fzf bat jq pyenv
+   brew install git git-lfs gh git-secrets pre-commit zoxide fzf bat jq pyenv tilt circleci doctl herdr
    ```
 
-4. Install nvm with its [install script](https://github.com/nvm-sh/nvm#installing-and-updating). Skip if `~/.nvm/nvm.sh` exists.
+4. **(you)** Install the 1Password CLI from [1Password's apt repository](https://developer.1password.com/docs/cli/get-started/#install). Use apt rather than Homebrew here: the apt package sets up the group permissions `op` needs to connect to the 1Password app. Skip if `op --version` works.
+5. Install nvm with its [install script](https://github.com/nvm-sh/nvm#installing-and-updating). Skip if `~/.nvm/nvm.sh` exists.
 
 ### 2. Sign in to GitHub
 

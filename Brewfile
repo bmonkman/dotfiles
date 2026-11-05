@@ -17,6 +17,8 @@ brew "jq"
 brew "nvm"
 brew "pyenv"
 brew "pnpm"
+brew "zsh-autosuggestions"
+brew "zsh-syntax-highlighting"
 
 # Tools the aliases and functions call
 brew "go"
@@ -32,6 +34,7 @@ brew "circleci"
 brew "doctl"
 brew "herdr"
 cask "ngrok"
+cask "docker-desktop"
 
 # Apps (Hammerspoon's bindings.lua names the terminal and password manager)
 cask "hammerspoon"

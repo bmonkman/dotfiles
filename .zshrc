@@ -65,7 +65,7 @@ export DISABLE_UPDATE_PROMPT=true
 
 export ZSH="$HOME/.oh-my-zsh"
 ZSH_THEME="nanotech"
-plugins=(git aws brew docker kubectl 1password golang gcloud history-substring-search zoxide zsh-autosuggestions zsh-syntax-highlighting)
+plugins=(git aws brew docker kubectl 1password golang gcloud history-substring-search zoxide)
 [[ $OSTYPE == darwin* ]] && plugins+=(macos)
 
 source $ZSH/oh-my-zsh.sh
@@ -232,3 +232,17 @@ aws_workspace() {
 git_origin() {
     git config -l | grep remote.origin.url | sed -E "s/.*\/(.*)\.git.*/\1:/"
 }
+
+###
+# Plugins from Homebrew (so brew upgrade keeps them current)
+###
+
+# Syntax highlighting wraps every line-editor widget that exists when it loads, so it must come last.
+for zsh_plugin in zsh-autosuggestions zsh-syntax-highlighting; do
+  if [[ -f $HOMEBREW_PREFIX/share/$zsh_plugin/$zsh_plugin.zsh ]]; then
+    source "$HOMEBREW_PREFIX/share/$zsh_plugin/$zsh_plugin.zsh"
+  else
+    echo "Missing $zsh_plugin. Run: brew install $zsh_plugin" >&2
+  fi
+done
+unset zsh_plugin

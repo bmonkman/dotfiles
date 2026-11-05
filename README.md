@@ -42,7 +42,7 @@ These steps work whether you run them yourself or ask Claude to.
    brew install git git-lfs gh git-secrets pre-commit zoxide fzf bat jq pyenv tilt circleci doctl herdr zsh-autosuggestions zsh-syntax-highlighting
    ```
 
-4. **(you)** Install the 1Password CLI from [1Password's apt repository](https://developer.1password.com/docs/cli/get-started/#install). Use apt rather than Homebrew here: the apt package sets up the group permissions `op` needs to connect to the 1Password app. Skip if `op --version` works.
+4. **(you)** Install the 1Password CLI from [1Password's apt repository](https://developer.1password.com/docs/cli/get-started/#install). Use apt rather than Homebrew here: the apt package sets up the group permissions `op` needs to connect to the 1Password app. Skip if `dpkg -s 1password-cli` succeeds and `command -v op` prints `/usr/bin/op`. If `op` resolves anywhere else, another copy is shadowing the apt one, so remove it (for Homebrew's: `brew uninstall --cask 1password-cli`).
 5. Install nvm with its [install script](https://github.com/nvm-sh/nvm#installing-and-updating). Skip if `~/.nvm/nvm.sh` exists.
 
 ### 2. Sign in to GitHub

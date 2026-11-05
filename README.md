@@ -39,10 +39,11 @@ These steps work whether you run them yourself or ask Claude to.
 3. Clone this repo (same command as macOS step 2), then install the tools:
 
    ```sh
-   brew install git git-lfs gh git-secrets pre-commit zoxide fzf bat jq pyenv
+   brew install git git-lfs gh git-secrets pre-commit zoxide fzf bat jq pyenv tilt circleci doctl herdr zsh-autosuggestions zsh-syntax-highlighting
    ```
 
-4. Install nvm with its [install script](https://github.com/nvm-sh/nvm#installing-and-updating). Skip if `~/.nvm/nvm.sh` exists.
+4. **(you)** Install the 1Password CLI from [1Password's apt repository](https://developer.1password.com/docs/cli/get-started/#install). Use apt rather than Homebrew here: the apt package sets up the group permissions `op` needs to connect to the 1Password app. Skip if `dpkg -s 1password-cli` succeeds and `command -v op` prints `/usr/bin/op`. If `op` resolves anywhere else, another copy is shadowing the apt one, so remove it (for Homebrew's: `brew uninstall --cask 1password-cli`).
+5. Install nvm with its [install script](https://github.com/nvm-sh/nvm#installing-and-updating). Skip if `~/.nvm/nvm.sh` exists.
 
 ### 2. Sign in to GitHub
 
@@ -68,12 +69,7 @@ Skip if `~/.oh-my-zsh` exists. `--unattended` stops the installer from switching
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended --keep-zshrc
 ```
 
-Then install the two plugins it doesn't ship with. Skip each one whose folder already exists.
-
-```sh
-git clone https://github.com/zsh-users/zsh-autosuggestions ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions
-git clone https://github.com/zsh-users/zsh-syntax-highlighting ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
-```
+The autosuggestions and syntax-highlighting plugins come from Homebrew (step 1), not from oh-my-zsh, so `brew upgrade` updates them. `.zshrc` loads them itself.
 
 ### 5. Link the config
 
